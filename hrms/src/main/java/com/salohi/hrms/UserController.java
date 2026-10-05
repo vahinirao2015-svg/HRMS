@@ -39,11 +39,12 @@ public class UserController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
+     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return repo.findById(id).map(u -> {
-            if ("admin".equals(u.getUsername())) return ResponseEntity.<Void>status(403).build();
-            repo.delete(u); return ResponseEntity.<Void>noContent().build();
-        }).orElse(ResponseEntity.notFound().build());
+        AppUser u = repo.findById(id).orElse(null);
+        if (u == null) return ResponseEntity.notFound().build();
+        if ("admin".equals(u.getUsername())) return ResponseEntity.status(403).build();
+        repo.delete(u);
+        return ResponseEntity.noContent().build();
     }
-}
+
