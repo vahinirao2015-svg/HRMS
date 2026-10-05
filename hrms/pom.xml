@@ -11,7 +11,7 @@
   <artifactId>hrms</artifactId>
   <version>1.0.0</version>
   <properties>
-    <java.version>25</java.version>
+    <java.version>17</java.version>
     <sonar.projectKey>salohi-hrms</sonar.projectKey>
   </properties>
   <dependencies>
