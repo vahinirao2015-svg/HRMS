@@ -10,11 +10,11 @@ pipeline {
     stage('Build & Test') {
       steps { dir('hrms') { sh 'mvn -B clean verify' } }
     }
-    stage('SonarQube') {
+    stage('sonarqube') {
       steps {
         dir('hrms') {
-          withCredentials([string(credentialsId: 'sonar-token', variable: 'T')]) {
-            sh 'mvn -B sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.token=$T'
+          withCredentials([string(credentialsId: 'sonar-cred', variable: 'T')]) {
+            sh 'mvn -B sonar:sonar -Dsonar.host.url=http://13.127.79.203:9000 -Dsonar.token=$T'
           }
         }
       }
