@@ -3,8 +3,8 @@ pipeline {
   stages {
     stage('Build & Test') { steps { sh 'mvn -B clean verify' } }
     stage('SonarQube')    {
-      steps { withCredentials([string(credentialsId: 'sonar-token', variable: 'T')]) {
-        sh 'mvn -B sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.token=$T'
+      steps { withCredentials([string(credentialsId: 'sonar-cred', variable: 'T')]) {
+        sh 'mvn -B sonar:sonar -Dsonar.host.url=http://13.127.79.203:9000/ -Dsonar.token=$T'
       } }
     }
     stage('Deploy') { steps { sh 'docker compose up -d --build' } }
