@@ -1,0 +1,12 @@
+pipeline {
+  agent any
+  stages {
+    stage('Build & Test') { steps { sh 'mvn -B clean verify' } }
+    stage('SonarQube')    {
+      steps { withCredentials([string(credentialsId: 'sonar-token', variable: 'T')]) {
+        sh 'mvn -B sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.token=$T'
+      } }
+    }
+    stage('Deploy') { steps { sh 'docker compose up -d --build' } }
+  }
+}
